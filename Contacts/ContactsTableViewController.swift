@@ -15,40 +15,39 @@ class ContactsTableViewController: UITableViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-//        let moveButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: Selector("toggleEdit"))
-        
-//        if tableView.editing {
-//            UIBarButtonItem.
-//        } else {
-//            //
-//        }
-        
-//        navigationItem.leftBarButtonItem = moveButton
-    
+  
         let jenny = Contact(phoneNumber: "867-5309")
         let rich = Contact(name: "Rich", phoneNumber: "888-888-8888")
         let mindy = Contact(name: "Mindy")
         
         self.contacts.append(jenny)
         self.contacts.append(rich)
-        
         self.contacts.append(mindy)
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: Selector("addContact"))
+        navigationItem.rightBarButtonItem = addButton
+        
+        
+    }
+    
+    func addContact() {
+        let newContact = Contact(name: "New Contact")
+        self.contacts.append(newContact)
+        let newIndexPath = NSIndexPath(forRow: self.contacts.count - 1, inSection: 0)
+        self.tableView.insertRowsAtIndexPaths([newIndexPath], withRowAnimation: .Automatic)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
-//    func toggleEdit() {
-//        tableView.setEditing(!tableView.editing, animated: true)
-//    }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
     
     override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
         if tableView.editing {
@@ -99,9 +98,6 @@ class ContactsTableViewController: UITableViewController {
             }
         }
     }
-   
-    
-    // Override to support conditional editing of the table view.
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
@@ -115,41 +111,4 @@ class ContactsTableViewController: UITableViewController {
         contacts.insert(contactMoving, atIndex: destinationIndexPath.row)
     }
     
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
